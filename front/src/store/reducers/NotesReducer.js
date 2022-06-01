@@ -21,7 +21,11 @@ export function NotesReducer(state = initialState, action) {
     case Actions.GET_NOTES_DATA:
       return { ...state, data: action.payload };
     case Actions.POST_NOTES:
-      return { ...state, datas: action.payload };
+      return { ...state };
+    case Actions.PUT_NOTES:
+      return { ...state };
+    case Actions.DEL_NOTES:
+      return { ...state };
   }
 }
 
