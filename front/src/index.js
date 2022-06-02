@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { store } from './store'
 
 import './assets/index.css';
-// import '../node_modules/semantic-ui-css/semantic.min.css'
+import 'antd/dist/antd.compact.min.css'
 
 import App from './App';
 import reportWebVitals from './test/reportWebVitals';
