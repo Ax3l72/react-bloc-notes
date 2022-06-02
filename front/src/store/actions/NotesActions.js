@@ -25,10 +25,10 @@ export const postNotes = (value) => {
     }
 }
 
-export const putNotes = (value1, value2) => {
+export const putNotes = (id, data) => {
     return (dispatch) => {
         return api
-            .put(`/notes`,{data:value1,data_edit:value2})
+            .put(`/notes`,{id:id,data_title:data})
             .then((res) => {
                 console.log('putNotes', res.data)
                 dispatch({ type: PUT_NOTES, payload: res.data })
@@ -37,10 +37,10 @@ export const putNotes = (value1, value2) => {
     }
 }
 
-export const delNotes = (value1) => {
+export const delNotes = (id) => {
     return (dispatch) => {
         return api
-            .delete(`/notes`,{data:{data_del:value1}})
+            .delete(`/notes`,{data:{id:id}})
             .then((res) => {
                 console.log('delNotes', res.data)
                 dispatch({ type: DEL_NOTES, payload: res.data })

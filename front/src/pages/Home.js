@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import { getNotes, postNotes, putNotes, delNotes } from "../store/actions/NotesActions";
 import { store } from "../store";
 
+import { Message, Input, Button } from 'semantic-ui-react'
+
 export default function Home() {
     const data = useSelector((state) => state.notes.data);
 
@@ -17,18 +19,18 @@ export default function Home() {
         }
     }
 
-    function editNotes(value,index) {
-        const input = document.getElementById(`notes_edit-`+index).value;
+    function editNotes(id) {
+        const input = document.getElementById(`notes_edit-` + id).value;
         if (input.length > 0) {
-            store.dispatch(putNotes(value,input));
+            store.dispatch(putNotes(id, input));
             store.dispatch(getNotes());
-            document.getElementById(`notes_edit-`+index).value = "";
+            document.getElementById(`notes_edit-` + id).value = "";
         }
     }
 
     function deleteNotes(value) {
-            store.dispatch(delNotes(value));
-            store.dispatch(getNotes());
+        store.dispatch(delNotes(value));
+        store.dispatch(getNotes());
     }
 
     useEffect(() => {
@@ -41,20 +43,35 @@ export default function Home() {
             {data.users && data.users.map((el, index) => {
                 return (
                     <div key={index}>
-                        <p>{el.username} - {index}</p> 
-                        <input maxLength="16" id={'notes_edit-'+index} type="text" name="notes_edit" />
-                        <button onClick={() => editNotes(el.username, index)} >EDIT</button>
-                        <button onClick={() => deleteNotes(el.username)} >DELETE</button>
-                        <br/>
-                        <br/>
-                        <br/>
+                        <Message
+                            header={el.title}
+                            content={<div>
+                                        <Input id={'notes_edit-' + el.id} placeholder='Edit...' />
+                                        <Button 
+                                            color='orange'
+                                            icon='edit outline' 
+                                            onClick={() => editNotes(el.id)}
+                                            />
+                                        <Button 
+                                            color='red'
+                                            icon='trash' 
+                                            onClick={() => deleteNotes(el.id)}
+                                            />
+                                    </div>}
+                        />
+                        <br />
+                        <br />
                     </div>
                 )
             })}
             <h2>POST</h2>
             <label>Your notes:</label><br />
-            <input maxLength="16" id="notes" type="text" name="notes_add" /><br /><br />
-            <button onClick={(e) => addNotes(e)} >Submit</button>
+            <Input maxLength="16" id="notes" type="text" name="notes_add" placeholder='Add title' />
+            <Button 
+                color='green'
+                icon='add' 
+                onClick={(e) => addNotes(e)}
+                />
 
         </div>
     )
