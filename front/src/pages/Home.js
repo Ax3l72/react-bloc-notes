@@ -18,8 +18,8 @@ export default function Home() {
         if (input.length > 0) {
             store.dispatch(postNotes(input));
             store.dispatch(getNotes());
-            document.getElementById("notes").value = "";
-            document.getElementById("notes").focus();
+            // document.getElementById("notes").value = "";
+            // document.getElementById("notes").focus();
         }
     }
 
@@ -28,7 +28,7 @@ export default function Home() {
         if (input.length > 0) {
             store.dispatch(putNotes(id, input));
             store.dispatch(getNotes());
-            document.getElementById(`notes_edit-` + id).value = "";
+            // document.getElementById(`notes_edit-` + id).value = "";
         }
     }
 
@@ -46,7 +46,7 @@ export default function Home() {
             <Title level={3}>All data get</Title>
             <Row>
                 <Col span={12} offset={6}>
-                    {data.users && data.users.map((el, index) => {
+                    {data.data && data.data.map((el, index) => {
                         return (
                             <div key={index}>
                                 <Card
