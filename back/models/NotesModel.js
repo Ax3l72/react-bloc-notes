@@ -7,6 +7,7 @@ const connection = require("../config/database/connectDB");
 class Notes {
     constructor(notes) {
         this.title = notes.title;
+        this.id = notes.id;
     }
 
     getAll() {
@@ -37,11 +38,33 @@ class Notes {
             })
         })
     }
-    // editOne(){
-
-    // }
-    // deleteOne(){
-
-    // }
+    editID(){
+        return new Promise((resolve, reject) => {
+            const { title, id } = this
+            connection.getConnection(function(err, db){
+                if(err) reject(err);
+                db.query(`UPDATE notes SET title=:title WHERE id=${id}`,{title}, (err, data) => {
+                    if(err) reject(err);
+                    resolve(data);
+                    //
+                    db.release()
+                })
+            })
+        })
+    }
+    deleteID(){
+        return new Promise((resolve, reject) => {
+            const { id } = this
+            connection.getConnection(function(err, db){
+                if(err) reject(err)
+                db.query(`DELETE FROM notes WHERE id=${id}`, (err, data) =>{
+                    if(err) reject(err);
+                    resolve(data);
+                    //
+                    db.release()
+                })
+            })
+        })
+    }   
 }
 module.exports = Notes;

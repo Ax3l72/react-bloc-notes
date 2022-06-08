@@ -7,7 +7,8 @@ class NotesControllers{
             notes.getAll().then((data) => {
                 return res.json({
                     method: req.method,
-                    data: data
+                    data: data,
+                    message: "sucess get"
                 })
             })
         }catch(e){
@@ -20,9 +21,41 @@ class NotesControllers{
         let addNotes = new Notes({ title });
         try{
             addNotes.create().then((data) => {
+                console.log('losd', data);
                 return res.json({
                     method: req.method,
-                    data: req.body
+                    data_post: req.body,
+                    message: "sucess post"
+                })
+            })
+        }catch(e){
+            throw e;
+        }
+    }
+    async put (req, res){
+        const { title, id } = req.body
+        let editNotes = new Notes({ title, id });
+        try{
+            editNotes.editID().then((data) => {
+                return res.json({
+                    method: req.method,
+                    data: req.body,
+                    message: "Sucess edit"
+                })
+            })
+        }catch(e){
+            throw e;
+        }
+    }
+    async delete (req, res){
+        const { id } = req.body
+        let deleteNotes = new Notes({ id })
+        try{
+            deleteNotes.deleteID().then((data) => {
+                return res.json({
+                    method: req.method,
+                    data: req.body,
+                    message: "Sucess delete"
                 })
             })
         }catch(e){

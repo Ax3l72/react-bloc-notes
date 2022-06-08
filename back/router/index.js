@@ -12,5 +12,7 @@ const NotesControllers = require('../controllers/NoteController')
 router.route('/notes')
     .get(new NotesControllers().get)
     .post(new NotesControllers().post)
+    .put(new NotesControllers().put)
+    .delete(new NotesControllers().delete)
 
 module.exports = router

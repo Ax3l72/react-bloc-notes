@@ -19,7 +19,7 @@ export const postNotes = (value) => {
             .post(`/notes`,{title:value})
             .then((res) => {
                 console.log('postNotes', res.data)
-                dispatch({ type: POST_NOTES })
+                dispatch({ type: POST_NOTES, payload: res.data })
             })
             .catch((err) => console.log(err));
     }
@@ -31,7 +31,7 @@ export const putNotes = (id, data) => {
             .put(`/notes`,{id:id,title:data})
             .then((res) => {
                 console.log('putNotes', res.data)
-                dispatch({ type: PUT_NOTES })
+                dispatch({ type: PUT_NOTES, payload: res.data })
             })
             .catch((err) => console.log(err));
     }
@@ -43,7 +43,7 @@ export const delNotes = (id) => {
             .delete(`/notes`,{data:{id:id}})
             .then((res) => {
                 console.log('delNotes', res.data)
-                dispatch({ type: DEL_NOTES })
+                dispatch({ type: DEL_NOTES, payload: res.data })
             })
             .catch((err) => console.log(err));
     }

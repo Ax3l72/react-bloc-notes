@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import { getNotes, postNotes, putNotes, delNotes } from "../store/actions/NotesActions";
 import { store } from "../store";
@@ -8,26 +8,28 @@ import { Card, Input, Button, Row, Col, Typography } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 
 export default function Home() {
-    const data = useSelector((state) => state.notes.data);
+    const dataD = useSelector((state) => state.notes.data);
+    const dispatch = useDispatch();
+    console.log(dataD,'s');
     const { Title } = Typography;
     const { Meta } = Card;
     const FontIcons = "32px"
-
-    function addNotes() {
+    
+    async function addNotes() {
         const input = document.getElementById("notes").value;
         if (input.length > 0) {
-            store.dispatch(postNotes(input));
-            store.dispatch(getNotes());
+            await store.dispatch(postNotes(input));
+            await store.dispatch(getNotes());
             // document.getElementById("notes").value = "";
             // document.getElementById("notes").focus();
         }
     }
-
-    function editNotes(id) {
+    
+    async function editNotes(id) {
         const input = document.getElementById(`notes_edit-` + id).value;
         if (input.length > 0) {
-            store.dispatch(putNotes(id, input));
-            store.dispatch(getNotes());
+            await store.dispatch(putNotes(id, input));
+            await store.dispatch(getNotes());
             // document.getElementById(`notes_edit-` + id).value = "";
         }
     }
@@ -39,14 +41,14 @@ export default function Home() {
 
     useEffect(() => {
         store.dispatch(getNotes());
-    }, []);
+    }, [dispatch]);
 
     return (
         <div>
             <Title level={3}>All data get</Title>
             <Row>
                 <Col span={12} offset={6}>
-                    {data.data && data.data.map((el, index) => {
+                    {dataD.data && dataD.data.map((el, index) => {
                         return (
                             <div key={index}>
                                 <Card
