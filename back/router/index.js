@@ -1,14 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
-// const { getUsers, addNotes, editNotes, deleteNotes } = require('../controllers/NotesControllers')
-// const { testMD } = require('../middlewares/test')
+const { testMD } = require('../middlewares/test')
 const NotesControllers = require('../controllers/NoteController')
-// router.route('/notes')
-//     .get(getUsers)
-//     .post(testMD, addNotes)
-//     .put(testMD, editNotes)
-//     .delete(deleteNotes)
+
+// Utilisation du MD après toute les routes qui suivent
+router.use(testMD)
+
 router.route('/notes')
     .get(new NotesControllers().get)
     .post(new NotesControllers().post)
