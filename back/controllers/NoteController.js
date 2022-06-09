@@ -21,7 +21,6 @@ class NotesControllers{
         let addNotes = new Notes({ title });
         try{
             addNotes.create().then((data) => {
-                console.log('losd', data);
                 return res.json({
                     method: req.method,
                     data_post: req.body,
