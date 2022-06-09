@@ -6,4 +6,3 @@ require('dotenv').config()
 const port = process.env.PORT || 2023;
 const index = new Server(app, port);
 index.run();
-console.log('sdds')

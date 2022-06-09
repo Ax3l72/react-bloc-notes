@@ -10,7 +10,7 @@ import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 export default function Home() {
     const dataD = useSelector((state) => state.notes.data);
     const dispatch = useDispatch();
-    console.log(dataD,'s');
+
     const { Title } = Typography;
     const { Meta } = Card;
     const FontIcons = "32px"
