@@ -1,65 +1,89 @@
+const Connection = require('../config/database/mongConnection')
 const Notes = require('../models/NotesModel')
 
-class NotesControllers{
-    async get(req, res){
+const privateProps = new WeakMap();
+
+class NotesControllers extends Connection {
+    constructor(){
+        super()
+        privateProps.set(this.connectDatabase())
+    }
+    async get (req, res){
         try{
-            const notes = new Notes({})
-            notes.getAll().then((data) => {
-                return res.json({
-                    method: req.method,
-                    data: data,
-                    message: "sucess get"
-                })
+            const dbNotes = await Notes.find()
+            // console.log(dbNotes)
+            return res.json({
+                method: req.method,
+                data: dbNotes,
+                message: "Sucess get"
             })
-        }catch(e){
+        }
+        catch(e){
             throw e;
         }
     }
 
     async post (req, res){
-        const { title } = req.body
-        let addNotes = new Notes({ title });
         try{
-            addNotes.create().then((data) => {
-                return res.json({
-                    method: req.method,
-                    data_post: req.body,
-                    message: "sucess post"
+            const { data } = req.body
+            // console.log(req.body)
+            if(data){
+                const notes = new Notes({
+                    title: data
                 })
+
+                notes.save((err) => {
+                    if(err) return handleError(err)
+                })
+
+                return res.json({
+                    data: await Notes.find()
+                })
+            } 
+            else return res.json({
+                message:'Error',
+                data: []
             })
         }catch(e){
             throw e;
         }
     }
-    async put (req, res){
-        const { title, id } = req.body
-        let editNotes = new Notes({ title, id });
+
+    async updateID (req, res){
         try{
-            editNotes.editID().then((data) => {
-                return res.json({
-                    method: req.method,
-                    data: req.body,
-                    message: "Sucess edit"
-                })
-            })
+            const { data} = req.body
+            Notes.findByIdAndUpdate(
+                req.params.id,
+                { title: data },
+                async (err, data) => {
+                    if(err) throw err;
+                    return res.json({
+                        message: "update ok",
+                        data: await Notes.find()
+                    })
+                }
+                )
         }catch(e){
             throw e;
         }
     }
-    async delete (req, res){
-        const { id } = req.body
-        let deleteNotes = new Notes({ id })
+
+    async deleteID (req, res){
         try{
-            deleteNotes.deleteID().then((data) => {
-                return res.json({
-                    method: req.method,
-                    data: req.body,
-                    message: "Sucess delete"
-                })
-            })
+            Notes.findByIdAndDelete(
+                req.params.id,
+                async (err, data) => {
+                    if(err) throw err;
+                    return res.json({
+                        message: "delete ok",
+                        data: await Notes.find()
+                    })
+                }
+            )
         }catch(e){
             throw e;
         }
     }
+
 }
 module.exports = NotesControllers

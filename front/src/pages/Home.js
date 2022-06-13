@@ -34,9 +34,9 @@ export default function Home() {
         }
     }
 
-    function deleteNotes(value) {
-        store.dispatch(delNotes(value));
-        store.dispatch(getNotes());
+    async function deleteNotes(value) {
+        await store.dispatch(delNotes(value));
+        await store.dispatch(getNotes());
     }
 
     useEffect(() => {
@@ -49,18 +49,19 @@ export default function Home() {
             <Row>
                 <Col span={12} offset={6}>
                     {dataD.data && dataD.data.map((el, index) => {
+                        console.log(el._id)
                         return (
                             <div key={index}>
                                 <Card
                                     style={{ marginTop: 20 }}
                                     actions={[
-                                        <EditOutlined style={{ fontSize: FontIcons, }}  key="edit" onClick={() => editNotes(el.id)} />,
-                                        <DeleteOutlined style={{ fontSize: FontIcons, }}  key="del" onClick={() => deleteNotes(el.id)} />,
+                                        <EditOutlined style={{ fontSize: FontIcons, }}  key="edit" onClick={() => editNotes(el._id)} />,
+                                        <DeleteOutlined style={{ fontSize: FontIcons, }}  key="del" onClick={() => deleteNotes(el._id)} />,
                                     ]}
                                 >
                                     <Meta
                                         title={el.title}
-                                        description={<Input maxLength="16" id={'notes_edit-' + el.id} placeholder='Edit...' />}
+                                        description={<Input maxLength="16" id={'notes_edit-' + el._id} placeholder='Edit...' />}
                                     />
                                 </Card>
                             </div>
